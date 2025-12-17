@@ -1,0 +1,8 @@
+node_modules
+.next
+dist
+build
+.vscode
+public/*.svg
+public/*.png
+public/*.jpg
