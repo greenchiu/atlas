@@ -1,19 +1,29 @@
 'use client';
 import { useState } from 'react';
 
+interface FormData {
+  email: string;
+  password: string;
+}
+
+interface FormErrors {
+  email?: string;
+  password?: string;
+}
+
 export default function Login() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
   });
 
-  const [errors, setErrors] = useState({
+  const [errors, setErrors] = useState<FormErrors>({
     email: '',
     password: '',
   });
 
-  const validate = () => {
-    let newErrors = { email: '', password: '' };
+  const validate = (): boolean => {
+    let newErrors: FormErrors = {};
     let isValid = true;
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -33,7 +43,7 @@ export default function Login() {
     return isValid;
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -45,7 +55,7 @@ export default function Login() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     console.log('Form Submitted:', formData);
     if (!validate()) {
@@ -80,7 +90,6 @@ export default function Login() {
               className={`w-full border bg-gray-800 ${errors.email ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none`}
               value={formData.email}
               onChange={handleChange}
-              required
             />
             {errors.email && <span className="mt-1 text-xs text-red-500">{errors.email}</span>}
           </div>
@@ -95,7 +104,6 @@ export default function Login() {
               className={`w-full border bg-gray-800 ${errors.password ? 'border-red-500' : 'border-gray-700'} rounded-lg p-3 text-white focus:ring-1 focus:ring-blue-500 focus:outline-none`}
               value={formData.password}
               onChange={handleChange}
-              required
             />
             {errors.password && (
               <span className="mt-1 text-xs text-red-500">{errors.password}</span>
