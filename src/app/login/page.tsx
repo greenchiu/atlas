@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 interface FormData {
   email: string;
@@ -12,6 +14,8 @@ interface FormErrors {
 }
 
 export default function Login() {
+  const router = useRouter();
+
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
@@ -57,10 +61,16 @@ export default function Login() {
 
   const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
     if (!validate()) {
       return;
     }
+
+    console.log('Form Submitted:', formData);
+
+    Cookies.set('isAuthed', 'true', { expires: 1, sameSite: 'strict' });
+      
+    router.push('/projects');
+
     // Add your authentication logic here
     // e.g., send data to an API:
     // fetch('/api/login', {
