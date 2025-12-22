@@ -68,7 +68,7 @@ export default function Login() {
     console.log('Form Submitted:', formData);
 
     Cookies.set('isAuthed', 'true', { expires: 1, sameSite: 'strict' });
-      
+
     router.push('/projects');
 
     // Add your authentication logic here

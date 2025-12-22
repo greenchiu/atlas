@@ -5,7 +5,6 @@ export function proxy(request: NextRequest) {
   const isAuthed = request.cookies.get('isAuthed')?.value;
 
   if (request.nextUrl.pathname.startsWith('/projects') && isAuthed !== 'true') {
-
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
@@ -13,5 +12,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/projects', '/projects/:path*'], 
+  matcher: ['/projects', '/projects/:path*'],
 };
