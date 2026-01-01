@@ -86,6 +86,22 @@ This makes it easy to QA copy, spacing, and empty/error UX without changing any 
 
 ---
 
+## Auth Guard & Proxy
+
+- `/projects` is protected by the custom proxy in `src/proxy.ts`. Every request to `/projects` or its subpaths gets intercepted; if the `isAuthed` cookie isn’t equal to `true`, the proxy responds with a 302 redirect to `/login`.
+- The login form sets `isAuthed=true` (1 day expiry, `SameSite=strict`) after a successful validation. That’s enough to unlock `/projects` in development—there’s no backend involved.
+- To clear or reset the mock auth cookie locally, open devtools → Application → Cookies and delete `isAuthed`, or run `document.cookie = 'isAuthed=; Max-Age=0; path=/';` in the console. The next request will redirect you back to `/login`.
+
+---
+
 ## Deployment
 
 The app can be deployed to any environment that supports Node.js 18+ (Vercel, Render, etc.). Build with `npm run build` and serve with `npm run start`, or use Vercel’s Git integration for zero-config deployments.
+
+---
+
+## Quick Demo (≈30 seconds)
+
+1. Visit `/login`, type an invalid email/password to see the inline error messages, then submit valid ones to set the auth cookie.
+2. After redirect, land on `/projects?state=success` to see the populated list.
+3. Switch the query to `?state=empty`, `?state=error`, and `?state=loading` to preview the other mocked states without reloading the app.
